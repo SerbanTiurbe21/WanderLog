@@ -8,18 +8,24 @@
     <fragment
         android:id="@+id/nav_home"
         android:name="com.example.wanderlog.ui.home.HomeFragment"
-        android:label="@string/menu_home"
+        android:label="Your trips"
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.wanderlog.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_aboutUs"
+        android:name="com.example.wanderlog.fragments.AboutUsFragment"
+        android:label="About us"
+        tools:layout="@layout/fragment_about_us" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.wanderlog.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_contact"
+        android:name="com.example.wanderlog.fragments.ContactFragment"
+        android:label="Contact"
+        tools:layout="@layout/fragment_contact" />
+
+    <fragment
+        android:id="@+id/nav_share"
+        android:name="com.example.wanderlog.fragments.ShareFragment"
+        android:label="Share"
+        tools:layout="@layout/fragment_share" />
 </navigation>
