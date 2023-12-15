@@ -8,6 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.wanderlog.MainActivity
 import com.example.wanderlog.R
+import com.example.wanderlog.activities.forgotpassword.ForgotPasswordActivity
 import com.example.wanderlog.utils.EmailUtils.validateEmail
 import com.example.wanderlog.utils.PasswordUtils.validatePassword
 import com.google.android.material.textfield.TextInputEditText
@@ -72,7 +73,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun onTvForgotPasswordClicked(){
         tvForgotPasswordLogIn.setOnClickListener {
-            var intent = Intent(this, ForgetPasswordActivity::class.java)
+            var intent = Intent(this, ForgotPasswordActivity::class.java)
             startActivity(intent)
         }
     }
