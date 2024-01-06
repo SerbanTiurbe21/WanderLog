@@ -3,25 +3,36 @@ package com.example.wanderlog.activities.forgotpassword
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.telecom.Call
 import android.widget.Button
 import android.widget.Toast
 import com.example.wanderlog.R
 import com.example.wanderlog.activities.login.LoginActivity
-import com.example.wanderlog.utils.EmailUtils
-import com.example.wanderlog.utils.PasswordUtils
+import com.example.wanderlog.api.service.UserService
+import com.example.wanderlog.database.models.User
+import com.example.wanderlog.retrofit.RetrofitInstance
 import com.google.android.material.textfield.TextInputEditText
+import com.example.wanderlog.utils.EmailUtils.validateEmail
+import com.example.wanderlog.utils.PasswordUtils.validatePassword
+import okhttp3.ResponseBody
+import org.json.JSONObject
+import retrofit2.Response
+import java.util.Optional
 
-class ForgotPasswordActivity : AppCompatActivity() {
+class ForgetPasswordActivity : AppCompatActivity() {
+
     private lateinit var emailInputForgetPassword: TextInputEditText
     private lateinit var passwordInputForgetPassword: TextInputEditText
     private lateinit var rePasswordInputForgetPassword: TextInputEditText
     private lateinit var btnChangePassword: Button
+    private var flag: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forgot_password)
 
         setup()
+        onBtnChangePasswordClicked()
     }
 
     private fun setup(){
@@ -33,6 +44,41 @@ class ForgotPasswordActivity : AppCompatActivity() {
 
     private fun onBtnChangePasswordClicked(){
         btnChangePassword.setOnClickListener {
+            val userService: UserService = RetrofitInstance.getRetrofitInstance().create(
+                UserService::class.java
+            )
+            val apiCall: retrofit2.Call<ResponseBody> = userService.getUserByEmail(emailInputForgetPassword.text.toString())
+            apiCall.enqueue(object : retrofit2.Callback<ResponseBody> {
+                override fun onResponse(
+                    call: retrofit2.Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    if (response.isSuccessful) {
+                        val responseBodyString = response.body()?.string()
+                        if (responseBodyString != null) {
+                            val jsonObject = JSONObject(responseBodyString)
+                            val userPassword: String = jsonObject.getString("password")
+                            if (userPassword == passwordInputForgetPassword.text.toString()) {
+                                Toast.makeText(this@ForgetPasswordActivity, "New password cannot be the same as the old password.", Toast.LENGTH_SHORT).show()
+                                flag = true
+                            }
+                        } else {
+                            Toast.makeText(this@ForgetPasswordActivity, "User not found.", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        Toast.makeText(this@ForgetPasswordActivity, "Error getting user", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: retrofit2.Call<ResponseBody>, t: Throwable) {
+                    Toast.makeText(
+                        this@ForgetPasswordActivity,
+                        t.message.toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
+
             if(emailInputForgetPassword.text.toString().isEmpty()){
                 Toast.makeText(this, "Please enter your email and password", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -48,36 +94,69 @@ class ForgotPasswordActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if(!EmailUtils.validateEmail(emailInputForgetPassword.text.toString())){
+            if(!validateEmail(emailInputForgetPassword.text.toString())){
                 Toast.makeText(this, "Invalid email", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            if(!PasswordUtils.validatePassword(passwordInputForgetPassword.text.toString())){
+            if(!validatePassword(passwordInputForgetPassword.text.toString())){
                 Toast.makeText(this, "Invalid password", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            if(!PasswordUtils.validatePassword(rePasswordInputForgetPassword.text.toString())){
+            if(!validatePassword(rePasswordInputForgetPassword.text.toString())){
                 Toast.makeText(this, "Invalid password", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             if(passwordInputForgetPassword.text.toString() != rePasswordInputForgetPassword.text.toString()){
-                Toast.makeText(this, "Password does not match", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Passwords does not match", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
+
             if(passwordInputForgetPassword.text.toString() == rePasswordInputForgetPassword.text.toString()){
-                Toast.makeText(this, "Password changed successfully", Toast.LENGTH_SHORT).show()
+                val user = User(
+                    email = emailInputForgetPassword.text.toString(),
+                    password = passwordInputForgetPassword.text.toString(),
+                    trips = setOf()
+                )
 
-                // TODO: Update the password in the backend
-
-                // change the activity to the login page
-                var intent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)
+                val call = userService.updateUserByEmail(emailInputForgetPassword.text.toString(), user)
+                call.enqueue(object : retrofit2.Callback<Optional<User>> {
+                    override fun onResponse(
+                        call: retrofit2.Call<Optional<User>>,
+                        response: Response<Optional<User>>
+                    ) {
+                        if (response.isSuccessful) {
+                            val user = response.body()
+                            if (user != null) {
+                                Toast.makeText(
+                                    this@ForgetPasswordActivity,
+                                    "Password changed successfully",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                if(!flag){
+                                    var intent = Intent(this@ForgetPasswordActivity, LoginActivity::class.java)
+                                    startActivity(intent)
+                                }
+                            } else {
+                                Toast.makeText(
+                                    this@ForgetPasswordActivity,
+                                    "Error changing password",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }}
+                    override fun onFailure(call: retrofit2.Call<Optional<User>>, t: Throwable) {
+                        Toast.makeText(
+                            this@ForgetPasswordActivity,
+                            t.message.toString(),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                })
             }
-
         }
     }
 }
