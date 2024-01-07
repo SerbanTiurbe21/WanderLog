@@ -17,4 +17,8 @@
         <item>"Registration difficulties"</item>
         <item>"Unable to recover password"</item>
     </string-array>
+    <string name="loyalty_program_text">%1$s, you reached %2$s.\nMake %3$d more bookings until %4$s to reach %5$s for more benefits.</string>
+    <string name="temperature">Temperature: %1$.1f°C</string>
+    <string name="feels_like">Feels Like: %1$.1f°C</string>
+    <string name="humidity">Humidity: %1$d%%</string>
 </resources>
