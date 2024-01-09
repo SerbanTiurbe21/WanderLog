@@ -41,9 +41,18 @@
         android:label="Add trip"
         tools:layout="@layout/fragment_add_trip" />
 
+    <fragment
+        android:id="@+id/nav_editTrip"
+        android:name="com.example.wanderlog.fragments.EditTripFragment"
+        android:label="Edit trip"
+        tools:layout="@layout/fragment_edit_trip" />
+
     <action android:id="@+id/action_nav_home_to_nav_tripDetails"
         app:destination="@id/nav_tripDetails" />
 
     <action android:id="@+id/action_nav_home_to_nav_addTrip"
         app:destination="@id/nav_addTrip" />
+
+    <action android:id="@+id/action_nav_home_to_nav_editTrip"
+        app:destination="@id/nav_editTrip" />
 </navigation>
