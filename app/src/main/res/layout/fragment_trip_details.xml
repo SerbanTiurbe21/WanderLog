@@ -11,13 +11,13 @@
         android:id="@+id/tvTripHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
         android:layout_marginTop="64dp"
-        android:gravity="center_horizontal"
+        android:gravity="center"
         android:text="Trip Details"
         android:textColor="@color/white"
         android:textSize="48sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -68,12 +68,14 @@
             android:id="@+id/ivTripIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="168dp"
             android:src="@drawable/usericon"
-            app:layout_constraintBottom_toBottomOf="@id/tvArrivalCity"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.303"
+            app:layout_constraintHorizontal_bias="0.264"
             app:layout_constraintStart_toEndOf="@+id/tvArrivalCity"
-            app:layout_constraintTop_toTopOf="@id/tvArrivalCity" />
+            app:layout_constraintTop_toTopOf="@id/tvArrivalCity"
+            app:layout_constraintVertical_bias="0.65" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -15,6 +15,7 @@ import com.example.wanderlog.utils.EmailUtils.validateEmail
 import com.example.wanderlog.utils.PasswordUtils.validatePassword
 import okhttp3.ResponseBody
 import org.json.JSONObject
+import retrofit2.Call
 import retrofit2.Response
 import java.util.Optional
 
@@ -46,10 +47,11 @@ class ForgotPasswordActivity : AppCompatActivity() {
             val userService: UserService = RetrofitInstance.getRetrofitInstance().create(
                 UserService::class.java
             )
-            val apiCall: retrofit2.Call<ResponseBody> = userService.getUserByEmail(emailInputForgetPassword.text.toString())
+
+            val apiCall: Call<ResponseBody> = userService.getUserByEmail(emailInputForgetPassword.text.toString())
             apiCall.enqueue(object : retrofit2.Callback<ResponseBody> {
                 override fun onResponse(
-                    call: retrofit2.Call<ResponseBody>,
+                    call: Call<ResponseBody>,
                     response: Response<ResponseBody>
                 ) {
                     if (response.isSuccessful) {
@@ -69,7 +71,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
                     }
                 }
 
-                override fun onFailure(call: retrofit2.Call<ResponseBody>, t: Throwable) {
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                     Toast.makeText(
                         this@ForgotPasswordActivity,
                         t.message.toString(),
@@ -124,7 +126,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
                 val call = userService.updateUserByEmail(emailInputForgetPassword.text.toString(), user)
                 call.enqueue(object : retrofit2.Callback<Optional<User>> {
                     override fun onResponse(
-                        call: retrofit2.Call<Optional<User>>,
+                        call: Call<Optional<User>>,
                         response: Response<Optional<User>>
                     ) {
                         if (response.isSuccessful) {
@@ -147,7 +149,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
                                 ).show()
                             }
                         }}
-                    override fun onFailure(call: retrofit2.Call<Optional<User>>, t: Throwable) {
+                    override fun onFailure(call: Call<Optional<User>>, t: Throwable) {
                         Toast.makeText(
                             this@ForgotPasswordActivity,
                             t.message.toString(),

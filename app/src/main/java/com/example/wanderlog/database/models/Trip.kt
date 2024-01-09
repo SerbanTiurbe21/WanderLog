@@ -14,4 +14,9 @@ data class Trip(
     var photoUri: String,
     var temperature: Float,
     var isFavourite: Boolean
-)
+
+) {
+    override fun hashCode(): Int {
+        return id.hashCode() ?: 0
+    }
+}

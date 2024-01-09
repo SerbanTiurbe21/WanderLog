@@ -1,11 +1,11 @@
 package com.example.wanderlog.database.dto
 
 data class TripDTO(
-    var id: String,
     var userId: String,
     var tripName: String,
     var startDate: String,
     var endDate: String,
+    var origin: String,
     var destination: String,
     var tripType: String,
     var price: Float,

@@ -96,7 +96,6 @@ class LoginActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
                     if (response.isSuccessful) {
                         if (response.body() == true) {
-                            Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT).show()
                             getCurrentUserAndSaveToPreferences()
                             var intent = Intent(this@LoginActivity, MainActivity::class.java)
                             startActivity(intent)

@@ -6,5 +6,5 @@ data class UserDTO(
     val id: String,
     val email: String,
     val password: String,
-    val trips: Set<Trip>
+    var trips: Set<Trip>
 )
