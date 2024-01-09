@@ -1,6 +1,8 @@
 package com.example.wanderlog.fragments
 
+import android.content.Context
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -26,6 +28,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.FileNotFoundException
 
 
 private const val ARG_PARAM1 = "param1"
@@ -93,16 +96,9 @@ class TripDetailsFragment : Fragment() {
                             view?.findViewById<TextView>(R.id.tvArrivalDate)?.text = trip.endDate
                             view?.findViewById<TextView>(R.id.tvDepartureStation)?.text = trip.origin
                             view?.findViewById<TextView>(R.id.tvArrivalStation)?.text = trip.destination
-                            view?.findViewById<TextView>(R.id.tvPrice)?.text = buildString { append(trip.price.toString())
+                            view?.findViewById<TextView>(R.id.tvPrice)?.text = buildString { append(trip.price.toString().split(".")[0])
                                 append("€") }
-
-                            CoroutineScope(Dispatchers.IO).launch {
-                                val bitmap = BitmapFactory.decodeFile(trip.photoUri)
-                                withContext(Dispatchers.Main) {
-                                    view?.findViewById<ImageView>(R.id.ivTripImage)?.setImageBitmap(bitmap)
-                                }
-                            }
-
+                            view?.findViewById<ImageView>(R.id.ivTripImage)?.loadImageAsync(requireContext(), trip.photoUri)
                             updateWeatherInfo(trip.destination)
                         }
                     } else {
@@ -151,6 +147,27 @@ class TripDetailsFragment : Fragment() {
             view?.findViewById<TextView>(R.id.tvWeather)?.text = getString(R.string.temperature, tempInCelsius)
             view?.findViewById<TextView>(R.id.tvFeelsLike)?.text = getString(R.string.feels_like, feelsLikeInCelsius)
             view?.findViewById<TextView>(R.id.tvHumidity)?.text = getString(R.string.humidity, humidity)
+        }
+    }
+
+    private fun ImageView.loadImageAsync(context: Context, imageUriString: String) {
+        val imageView = this
+        CoroutineScope(Dispatchers.IO).launch {
+            val contentUri = Uri.parse(imageUriString)
+
+            val bitmap = try {
+                val imageStream = context.contentResolver.openInputStream(contentUri)
+                BitmapFactory.decodeStream(imageStream)
+            } catch (e: FileNotFoundException) {
+                e.printStackTrace()
+                null
+            }
+
+            withContext(Dispatchers.Main) {
+                bitmap?.let {
+                    imageView.setImageBitmap(it)
+                }
+            }
         }
     }
 }
