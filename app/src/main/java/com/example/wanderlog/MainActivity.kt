@@ -64,7 +64,6 @@ class MainActivity : AppCompatActivity() {
         imageViewThirdLevel = headerView.findViewById(R.id.imageViewThirdLevel)
         imageViewFourthLevel = headerView.findViewById(R.id.imageViewFourthLevel)
 
-
         val currentUser: UserDTO? = retrieveCurrentUser()
         if (currentUser != null) {
             val remainingTrips: Int = when(currentUser.trips.size){
@@ -79,7 +78,6 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main, menu)
         return true
@@ -148,6 +146,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun calculateTripsRating(trips: Set<Trip>): String {
+        if (trips.isEmpty()) {
+            return "0.0"
+        }
         var rating = 0.0
         for (trip in trips) {
             rating += trip.rating

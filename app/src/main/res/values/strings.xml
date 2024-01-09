@@ -21,4 +21,6 @@
     <string name="temperature">Temperature: %1$.1f°C</string>
     <string name="feels_like">Feels Like: %1$.1f°C</string>
     <string name="humidity">Humidity: %1$d%%</string>
+    <string name="title_activity_forget_password">ForgetPasswordActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
 </resources>
