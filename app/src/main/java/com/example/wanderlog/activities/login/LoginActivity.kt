@@ -1,3 +1,5 @@
+package com.example.wanderlog.activities.login
+
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,7 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.wanderlog.MainActivity
 import com.example.wanderlog.R
-import com.example.wanderlog.activities.forgotpassword.ForgetPasswordActivity
+import com.example.wanderlog.activities.forgotpassword.ForgotPasswordActivity
 import com.example.wanderlog.api.service.UserService
 import com.example.wanderlog.database.dto.LoginRequest
 import com.example.wanderlog.database.dto.UserDTO
@@ -24,7 +26,7 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Response
 
-class LogInActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
 
     private lateinit var emailInputLogIn: TextInputEditText
     private lateinit var passwordInputLogIn: TextInputEditText
@@ -94,20 +96,20 @@ class LogInActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
                     if (response.isSuccessful) {
                         if (response.body() == true) {
-                            Toast.makeText(this@LogInActivity, "Login successful", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT).show()
                             getCurrentUserAndSaveToPreferences()
-                            var intent = Intent(this@LogInActivity, MainActivity::class.java)
+                            var intent = Intent(this@LoginActivity, MainActivity::class.java)
                             startActivity(intent)
                         } else {
-                            Toast.makeText(this@LogInActivity, "Login failed", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@LoginActivity, "Login failed", Toast.LENGTH_SHORT).show()
                         }
                     } else {
-                        Toast.makeText(this@LogInActivity, "Login failed", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@LoginActivity, "Login failed", Toast.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: Call<Boolean>, t: Throwable) {
-                    Toast.makeText(this@LogInActivity, "Login failed", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@LoginActivity, "Login failed", Toast.LENGTH_SHORT).show()
                 }
             })
         }
@@ -115,7 +117,7 @@ class LogInActivity : AppCompatActivity() {
 
     private fun onTvForgotPasswordClicked(){
         tvForgotPasswordLogIn.setOnClickListener {
-            var intent = Intent(this, ForgetPasswordActivity::class.java)
+            var intent = Intent(this, ForgotPasswordActivity::class.java)
             startActivity(intent)
         }
     }

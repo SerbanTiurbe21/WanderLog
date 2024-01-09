@@ -3,7 +3,6 @@ package com.example.wanderlog.activities.forgotpassword
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.telecom.Call
 import android.widget.Button
 import android.widget.Toast
 import com.example.wanderlog.R
@@ -19,7 +18,7 @@ import org.json.JSONObject
 import retrofit2.Response
 import java.util.Optional
 
-class ForgetPasswordActivity : AppCompatActivity() {
+class ForgotPasswordActivity : AppCompatActivity() {
 
     private lateinit var emailInputForgetPassword: TextInputEditText
     private lateinit var passwordInputForgetPassword: TextInputEditText
@@ -59,20 +58,20 @@ class ForgetPasswordActivity : AppCompatActivity() {
                             val jsonObject = JSONObject(responseBodyString)
                             val userPassword: String = jsonObject.getString("password")
                             if (userPassword == passwordInputForgetPassword.text.toString()) {
-                                Toast.makeText(this@ForgetPasswordActivity, "New password cannot be the same as the old password.", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this@ForgotPasswordActivity, "New password cannot be the same as the old password.", Toast.LENGTH_SHORT).show()
                                 flag = true
                             }
                         } else {
-                            Toast.makeText(this@ForgetPasswordActivity, "User not found.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@ForgotPasswordActivity, "User not found.", Toast.LENGTH_SHORT).show()
                         }
                     } else {
-                        Toast.makeText(this@ForgetPasswordActivity, "Error getting user", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@ForgotPasswordActivity, "Error getting user", Toast.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: retrofit2.Call<ResponseBody>, t: Throwable) {
                     Toast.makeText(
-                        this@ForgetPasswordActivity,
+                        this@ForgotPasswordActivity,
                         t.message.toString(),
                         Toast.LENGTH_SHORT
                     ).show()
@@ -132,17 +131,17 @@ class ForgetPasswordActivity : AppCompatActivity() {
                             val user = response.body()
                             if (user != null) {
                                 Toast.makeText(
-                                    this@ForgetPasswordActivity,
+                                    this@ForgotPasswordActivity,
                                     "Password changed successfully",
                                     Toast.LENGTH_SHORT
                                 ).show()
                                 if(!flag){
-                                    var intent = Intent(this@ForgetPasswordActivity, LoginActivity::class.java)
+                                    var intent = Intent(this@ForgotPasswordActivity, LoginActivity::class.java)
                                     startActivity(intent)
                                 }
                             } else {
                                 Toast.makeText(
-                                    this@ForgetPasswordActivity,
+                                    this@ForgotPasswordActivity,
                                     "Error changing password",
                                     Toast.LENGTH_SHORT
                                 ).show()
@@ -150,7 +149,7 @@ class ForgetPasswordActivity : AppCompatActivity() {
                         }}
                     override fun onFailure(call: retrofit2.Call<Optional<User>>, t: Throwable) {
                         Toast.makeText(
-                            this@ForgetPasswordActivity,
+                            this@ForgotPasswordActivity,
                             t.message.toString(),
                             Toast.LENGTH_SHORT
                         ).show()
