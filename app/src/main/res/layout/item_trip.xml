@@ -11,23 +11,33 @@
     app:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutTrip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:padding="8dp">
 
-        <ImageView
-            android:id="@+id/imageViewTrip"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewTrip"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ceo"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="2dp"
+            app:cardUseCompatPadding="true"
             app:layout_constraintEnd_toStartOf="@id/guidelineVertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <ImageView
+                android:id="@+id/imageViewTrip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ceo" />
+        </androidx.cardview.widget.CardView>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guidelineVertical"
@@ -36,11 +46,13 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.33" />
 
+
         <TextView
             android:id="@+id/textViewTripName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:padding="4dp"
@@ -48,15 +60,14 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/guidelineVertical"
-            app:layout_constraintTop_toTopOf="@id/imageViewTrip" />
-
+            app:layout_constraintTop_toTopOf="@id/constraintLayoutTrip" />
 
         <TextView
             android:id="@+id/textViewRatingScore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/rating_background"
             android:padding="4dp"
             android:text="8,9"
@@ -70,8 +81,8 @@
             android:id="@+id/textViewRatingText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="4dp"
             android:text="Very good"
             android:textSize="12sp"
             app:layout_constraintStart_toEndOf="@id/textViewRatingScore"
@@ -81,11 +92,11 @@
             android:id="@+id/textViewReviewCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="56dp"
+            android:layout_marginStart="52dp"
             android:layout_marginTop="4dp"
             android:text="(14 reviews)"
             android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@+id/imageViewTrip"
+            app:layout_constraintStart_toEndOf="@+id/cardViewTrip"
             app:layout_constraintTop_toBottomOf="@+id/textViewRatingText" />
 
         <LinearLayout
@@ -94,7 +105,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginStart="16dp"
-            app:layout_constraintStart_toEndOf="@id/imageViewTrip"
+            app:layout_constraintStart_toEndOf="@id/cardViewTrip"
             app:layout_constraintTop_toBottomOf="@id/textViewReviewCount"
             android:layout_marginTop="4dp">
         </LinearLayout>
@@ -103,8 +114,8 @@
             android:id="@+id/textViewOriginalPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
             android:text="350$"
             android:textColor="#FF0000"
             android:textSize="12sp"
@@ -115,39 +126,42 @@
             android:id="@+id/textViewDiscountedPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="#000000"
-            android:textStyle="bold"
+            android:layout_marginStart="4dp"
             android:text="220$"
-            app:layout_constraintStart_toEndOf="@id/textViewOriginalPrice"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/textViewOriginalPrice"
+            app:layout_constraintStart_toEndOf="@id/textViewOriginalPrice"
             app:layout_constraintTop_toTopOf="@id/textViewOriginalPrice"
-            android:layout_marginStart="8dp" />
+            app:layout_constraintVertical_bias="1.0" />
 
         <FrameLayout
             android:id="@+id/frameLayoutBookmark"
             android:layout_width="81dp"
             android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/imageViewBookmark"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginEnd="12dp"
                 android:src="@drawable/bookmark" />
         </FrameLayout>
 
-        <ImageView
-            android:id="@+id/imageViewInfoDetails"
+        <TextView
+            android:id="@+id/textViewInfoDetails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="4dp"
-            android:contentDescription="More info"
-            android:src="@drawable/baseline_remove_red_eye_24"
+            android:text="More info"
+            android:textColor="#4638C3"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
