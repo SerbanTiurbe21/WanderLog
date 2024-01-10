@@ -18,19 +18,18 @@
         android:theme="@style/Theme.WanderLog"
         tools:targetApi="31">
         <activity
-            android:name=".activities.forgotpassword.ForgotPasswordActivity"
+            android:name=".activities.forgetpassword.ForgetPasswordActivity"
             android:exported="false"
             android:label="@string/title_activity_forget_password"
-            android:theme="@style/Theme.WanderLog.NoActionBar" />
+            android:theme="@style/Theme.WanderLog" />
         <activity
             android:name=".activities.login.LoginActivity"
-            android:theme="@style/Theme.WanderLog.NoActionBar"
             android:exported="false" />
         <activity
             android:name=".activities.signup.SignUpActivity"
             android:exported="false"
-            android:theme="@style/Theme.WanderLog.NoActionBar"
-            android:label="@string/title_activity_login" />
+            android:label="@string/title_activity_login"
+            android:theme="@style/Theme.WanderLog" />
         <activity
             android:name=".activities.splash.SplashActivity"
             android:exported="true"

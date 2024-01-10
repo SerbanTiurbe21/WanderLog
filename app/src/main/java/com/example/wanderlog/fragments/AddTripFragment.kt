@@ -289,8 +289,6 @@ class AddTripFragment : Fragment() {
         call.enqueue(object : retrofit2.Callback<Trip> {
             override fun onResponse(call: Call<Trip>, response: retrofit2.Response<Trip>) {
                 if (response.isSuccessful) {
-                    Log.e("AddTripFragment", response.body().toString())
-
                     val sharedPreferences = requireActivity().getSharedPreferences("sharedPrefs", MODE_PRIVATE)
                     val userJson = sharedPreferences.getString("USER", null) ?: return
                     val userDTO: UserDTO = Gson().fromJson(userJson, UserDTO::class.java)

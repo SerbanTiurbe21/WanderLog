@@ -1,4 +1,4 @@
-package com.example.wanderlog.activities.forgotpassword
+package com.example.wanderlog.activities.forgetpassword
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -19,7 +19,7 @@ import retrofit2.Call
 import retrofit2.Response
 import java.util.Optional
 
-class ForgotPasswordActivity : AppCompatActivity() {
+class ForgetPasswordActivity : AppCompatActivity() {
 
     private lateinit var emailInputForgetPassword: TextInputEditText
     private lateinit var passwordInputForgetPassword: TextInputEditText
@@ -29,7 +29,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_forgot_password)
+        setContentView(R.layout.activity_forget_password)
 
         setup()
         onBtnChangePasswordClicked()
@@ -60,20 +60,20 @@ class ForgotPasswordActivity : AppCompatActivity() {
                             val jsonObject = JSONObject(responseBodyString)
                             val userPassword: String = jsonObject.getString("password")
                             if (userPassword == passwordInputForgetPassword.text.toString()) {
-                                Toast.makeText(this@ForgotPasswordActivity, "New password cannot be the same as the old password.", Toast.LENGTH_SHORT).show()
-                                flag = true
+                                Toast.makeText(this@ForgetPasswordActivity, "New password cannot be the same as the old password.", Toast.LENGTH_SHORT).show()
+                               flag = true
                             }
                         } else {
-                            Toast.makeText(this@ForgotPasswordActivity, "User not found.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@ForgetPasswordActivity, "User not found.", Toast.LENGTH_SHORT).show()
                         }
                     } else {
-                        Toast.makeText(this@ForgotPasswordActivity, "Error getting user", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@ForgetPasswordActivity, "Error getting user", Toast.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                     Toast.makeText(
-                        this@ForgotPasswordActivity,
+                        this@ForgetPasswordActivity,
                         t.message.toString(),
                         Toast.LENGTH_SHORT
                     ).show()
@@ -133,25 +133,25 @@ class ForgotPasswordActivity : AppCompatActivity() {
                             val user = response.body()
                             if (user != null) {
                                 Toast.makeText(
-                                    this@ForgotPasswordActivity,
+                                    this@ForgetPasswordActivity,
                                     "Password changed successfully",
                                     Toast.LENGTH_SHORT
                                 ).show()
                                 if(!flag){
-                                    var intent = Intent(this@ForgotPasswordActivity, LoginActivity::class.java)
+                                    var intent = Intent(this@ForgetPasswordActivity, LoginActivity::class.java)
                                     startActivity(intent)
                                 }
-                            } else {
-                                Toast.makeText(
-                                    this@ForgotPasswordActivity,
-                                    "Error changing password",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        }}
+                        } else {
+                            Toast.makeText(
+                                this@ForgetPasswordActivity,
+                                "Error changing password",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }}
                     override fun onFailure(call: Call<Optional<User>>, t: Throwable) {
                         Toast.makeText(
-                            this@ForgotPasswordActivity,
+                            this@ForgetPasswordActivity,
                             t.message.toString(),
                             Toast.LENGTH_SHORT
                         ).show()

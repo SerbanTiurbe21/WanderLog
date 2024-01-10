@@ -8,6 +8,7 @@ import com.example.wanderlog.R
 import com.example.wanderlog.activities.signup.SignUpActivity
 
 class SplashActivity : AppCompatActivity() {
+
     private lateinit var btnGetStarted: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
