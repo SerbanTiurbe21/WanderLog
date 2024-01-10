@@ -153,6 +153,15 @@ class MainActivity : AppCompatActivity() {
         for (trip in trips) {
             rating += trip.rating
         }
+
+        if (rating % 1 >= 0.5) {
+            return (rating / trips.size + 1).toString()
+        }
+
+        if (rating % 1 < 0.5) {
+            return (rating / trips.size).toString()
+        }
+
         return (rating / trips.size).toString()
     }
 

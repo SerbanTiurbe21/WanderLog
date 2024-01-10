@@ -5,11 +5,14 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
@@ -23,6 +26,7 @@ import com.example.wanderlog.database.dto.TripDTO
 import com.example.wanderlog.database.dto.UserDTO
 import com.example.wanderlog.database.models.Trip
 import com.example.wanderlog.retrofit.RetrofitInstance
+import com.google.android.material.slider.RangeSlider
 import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
@@ -34,6 +38,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.FileNotFoundException
+import java.util.Locale
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -82,6 +87,9 @@ class EditTripFragment : Fragment() {
         updateButton.setOnClickListener{
             selectImageLauncher.launch(arrayOf("image/*"))
         }
+
+        val priceUpdateRangeSlider = view.findViewById<RangeSlider>(R.id.priceUpdateRangeSlider)
+        updateSlider(priceUpdateRangeSlider, view.findViewById<TextInputEditText>(R.id.minUpdatePriceEditText), view.findViewById<TextInputEditText>(R.id.maxUpdatePriceEditText))
 
         btnUpdateTrip.setOnClickListener{
             val currentUser = getCurrentUserFromPreferences()
@@ -283,5 +291,51 @@ class EditTripFragment : Fragment() {
             Log.e("AddTripFragment", "Error parsing user JSON", e)
             null
         }
+    }
+
+    private fun updateSlider(
+        priceRangeSlider: RangeSlider,
+        minPriceEditText: EditText,
+        maxPriceEditText: EditText
+    ) {
+        priceRangeSlider.addOnChangeListener { slider, _, _ ->
+            val values = slider.values
+            minPriceEditText.setText(String.format(Locale.US, "%.0f", values[0]))
+            maxPriceEditText.setText(String.format(Locale.US, "%.0f", values[1]))
+        }
+
+        val textWatcher = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                minPriceEditText.removeTextChangedListener(this)
+                maxPriceEditText.removeTextChangedListener(this)
+
+                s?.toString()?.let { text ->
+                    if (text.isNotEmpty()) {
+                        try {
+                            val parsed = text.toFloat()
+
+                            if (parsed >= priceRangeSlider.values[0] && parsed <= priceRangeSlider.values[1]) {
+                                if (minPriceEditText.hasFocus()) {
+                                    priceRangeSlider.values = listOf(parsed, priceRangeSlider.values[1])
+                                } else if (maxPriceEditText.hasFocus()) {
+                                    priceRangeSlider.values = listOf(priceRangeSlider.values[0], parsed)
+                                }
+                            }
+                        } catch (e: NumberFormatException) {
+                        }
+                    }
+                }
+                minPriceEditText.addTextChangedListener(this)
+                maxPriceEditText.addTextChangedListener(this)
+            }
+        }
+        minPriceEditText.addTextChangedListener(textWatcher)
+        maxPriceEditText.addTextChangedListener(textWatcher)
     }
 }

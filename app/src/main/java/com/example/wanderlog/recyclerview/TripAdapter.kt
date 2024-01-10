@@ -67,6 +67,11 @@ class TripAdapter(private var tripList: Set<Trip>, private val tripUpdateListene
         }
 
         holder.textViewDiscountedPrice.text = "${(trip.price * 0.8).toInt()}$"
+
+        holder.imageViewBookmark.setImageResource(
+            if (trip.isFavourite) R.drawable.favoriteicon
+            else R.drawable.bookmark
+        )
         val doubleClickListener = DoubleClickListener {
             trip.isFavourite = !trip.isFavourite
             if (trip.isFavourite) {
