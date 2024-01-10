@@ -20,3 +20,4 @@ data class Trip(
         return id.hashCode() ?: 0
     }
 }
+

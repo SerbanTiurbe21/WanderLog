@@ -11,4 +11,3 @@ interface WeatherApi {
         @Query("appid") apiKey: String?
     ): Call<Example?>?
 }
-

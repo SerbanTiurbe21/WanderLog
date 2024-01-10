@@ -10,7 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.wanderlog.MainActivity
 import com.example.wanderlog.R
-import com.example.wanderlog.activities.forgotpassword.ForgotPasswordActivity
+import com.example.wanderlog.activities.forgetpassword.ForgetPasswordActivity
 import com.example.wanderlog.api.service.UserService
 import com.example.wanderlog.database.dto.LoginRequest
 import com.example.wanderlog.database.dto.UserDTO
@@ -39,7 +39,7 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_log_in)
 
         setup()
         onBtnGetStartedClicked()
@@ -116,7 +116,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun onTvForgotPasswordClicked(){
         tvForgotPasswordLogIn.setOnClickListener {
-            var intent = Intent(this, ForgotPasswordActivity::class.java)
+            var intent = Intent(this, ForgetPasswordActivity::class.java)
             startActivity(intent)
         }
     }
